@@ -2,14 +2,24 @@ const searchFood = () => {
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
     searchField.value = '';
-    const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`;
-    fetch(url)
-    .then(res => res.json())
-    .then(data => displaySearchResult(data.meals))
+    if(searchText == ''){
+        const error = document.getElementById('input-error');
+        error.style.display = 'block';
+    }
+    else{
+        const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`;
+        fetch(url)
+            .then(res => res.json())
+            .then(data => displaySearchResult(data.meals))
+    }
 }
 
 const displaySearchResult = meals => {
     const searchResult = document.getElementById('search-result');
+    searchResult.textContent = '';
+    if(meals == null){
+        document.getElementById('display-error').style.display = 'block';
+    }
     meals.forEach(meal => {
         const div = document.createElement('div');
         div.classList.add('col');
